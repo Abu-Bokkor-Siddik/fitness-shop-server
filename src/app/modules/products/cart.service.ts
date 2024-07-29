@@ -1,4 +1,3 @@
-import { query } from 'express';
 import { Carts } from './cart.interface';
 import { CartModel } from './cart.model';
 
