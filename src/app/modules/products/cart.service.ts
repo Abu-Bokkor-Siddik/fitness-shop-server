@@ -6,36 +6,44 @@ const createCartToDB = async (cart: Carts) => {
   return result;
 };
 // all cart
-const allCartsToDB = async (query:Record<string,unknown>) => {
-    const queryNew = { ...query };
-    let searchTerm ='';
-    if (query?.searchTerm) {
-        searchTerm= query.searchTerm as string;
-    }
-    const search =CartModel.find({name:{$regex:searchTerm,$options:'i'}});
-    // filter 
-    const removeSearch =['searchTerm','sort']
-    removeSearch.forEach((value)=> delete queryNew[value])
-
-    // const splitCategory= queryNew?.category.split(',')
-    // if (queryNew.category) {
-        
-    // }
-    // let filers=''
-    // if (query.category) {
-    //   filers=queryNew?.category.split(' ')
-    //   console.log(filers)
-    // }
-    console.log(queryNew)
-  const filterQuery = search.find(queryNew)
-  let sort= '+';
-  if (query?.sort) {
-    sort= query.sort as string
-    
+const allCartsToDB = async (query: Record<string, unknown>) => {
+  const queryNew = { ...query };
+  let searchTerm = '';
+  if (query?.searchTerm) {
+    searchTerm = query.searchTerm as string;
   }
-  const result = await filterQuery.sort(sort)
+  // here all search
+  const search = CartModel.find({
+    $or: [
+      { name: { $regex: searchTerm, $options: 'i' } },
+      { price: { $regex: searchTerm, $options: 'i' } },
+    ],
+  });
+  //   console.log(search)
+  // const search =CartModel.find({name:{$regex:searchTerm,$options:'i'}});
+
+  // filter
+  const removeSearch = ['searchTerm', 'sort'];
+  removeSearch.forEach((value) => delete queryNew[value]);
+  // filter multiple
+  let filterQuery;
+
+  if (queryNew.category && typeof queryNew.category === 'string') {
+    const category = query?.category as string;
+    const hello = category?.split(' and ');
+    filterQuery = search.find({ category: { $in: [hello[0], hello[1]] } });
+  } else {
+    filterQuery = search.find(queryNew);
+  }
+  //  console.log(hello[0])
+  // const filterQuery = search.find(queryNew)
+
+  let sort = '+';
+  if (query?.sort) {
+    sort = query.sort as string;
+  }
+  const result = await filterQuery.sort(sort);
   return result;
-  
 };
 // single products
 const singleCartToDB = async (_id: string) => {

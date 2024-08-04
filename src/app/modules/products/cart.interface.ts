@@ -5,7 +5,7 @@ export type Stock = {
 
 export type Carts = {
   name: string;
-  price: number;
+  price: string;
   description: string;
   images: string;
   category: string;
