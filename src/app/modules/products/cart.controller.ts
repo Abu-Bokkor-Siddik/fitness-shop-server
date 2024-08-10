@@ -1,4 +1,4 @@
-import { query, Request, Response } from "express";
+import {Request, Response } from "express";
 import { cartsService } from "./cart.service";
 
 const cartController =async (req:Request,res:Response)=>{
@@ -71,10 +71,25 @@ const updateCart = async(req:Request,res:Response)=>{
         console.log(error)
     }
 }
+// get paymentCarts 
+const paymentCart= async(req:Request,res:Response)=>{
+    try {
+        console.log(req.query)
+        const result = await cartsService.paymentCartsDB(req.query)
+        res.status(200).json({
+            success: true,
+            message: 'payment cart fetched successfully!',
+            data: result,
+          })
+    } catch (error) {
+        console.log(error)
+    }
+}
 export const cartControllers={
     cartController,
     allCartsController,
     singleCart,
     deleteCart,
     updateCart,
+    paymentCart,
 }

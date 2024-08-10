@@ -10,4 +10,5 @@ export type Carts = {
   images: string;
   category: string;
   stock: Stock;
+  cart:string;
 };

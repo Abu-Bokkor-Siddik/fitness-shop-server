@@ -62,10 +62,17 @@ const updateCartToDB = async (_id: string, payload: Partial<Carts>) => {
   });
   return result;
 };
+// get paymentCarts
+const paymentCartsDB = async (cart: Record<string, unknown>) => {
+  console.log(cart)
+  const result = await CartModel.find( cart );
+  return result;
+};
 export const cartsService = {
   createCartToDB,
   allCartsToDB,
   singleCartToDB,
   deleteCartToDB,
   updateCartToDB,
+  paymentCartsDB
 };

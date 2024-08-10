@@ -35,6 +35,9 @@ const cartSchema = new Schema<Carts>(
         required: true,
       },
     },
+    cart:{
+      type:String,
+    }
   },
   {
     timestamps: true,
