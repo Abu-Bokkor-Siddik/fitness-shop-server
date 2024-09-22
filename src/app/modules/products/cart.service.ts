@@ -19,8 +19,6 @@ const allCartsToDB = async (query: Record<string, unknown>) => {
       { price: { $regex: searchTerm, $options: 'i' } },
     ],
   });
-  //   console.log(search)
-  // const search =CartModel.find({name:{$regex:searchTerm,$options:'i'}});
 
   // filter
   const removeSearch = ['searchTerm', 'sort'];

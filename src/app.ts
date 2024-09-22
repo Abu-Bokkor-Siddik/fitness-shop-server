@@ -6,7 +6,9 @@ import { cartRouter } from './app/modules/products/cart.router';
 import { paymentRouter } from './app/modules/order/payment.router';
 const app: Application = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin:["http://localhost:5173"]
+}));
 app.use('/api', cartRouter);
 app.use('/api', paymentRouter);
 app.get('/', (req: Request, res: Response) => {
